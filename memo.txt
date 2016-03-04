@@ -1,0 +1,7 @@
+memoryManager.cのmalloc_size()をmalloc_usable_size()に変更する
+mathライブラリをリンクすることでコンパイル可能
+gcc -o pura *.c -lm
+
+./lib/java を./javaにシンボリックリンクを作成することで
+Hello Worldが実行可能になる
+./pura testclasses/hello/HelloWorld

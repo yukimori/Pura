@@ -40,7 +40,7 @@ long dynamicPaddingLoss= 0;
 void* mm_staticMalloc( uint32 size )
 {
 	void* ptr= malloc( size );
-	uint32 allocatedSize= malloc_size(ptr);
+	uint32 allocatedSize= malloc_usable_size(ptr);
 
 	numberOfStaticAllocations++;
 	currentStaticMemoryUsage+= allocatedSize;
@@ -56,7 +56,7 @@ void* mm_staticMalloc( uint32 size )
 void* mm_dynamicMalloc( uint32 size )
 {
 	void* ptr= malloc( size );
-	uint32 allocatedSize= malloc_size(ptr);
+	uint32 allocatedSize= malloc_usable_size(ptr);
 
 	numberOfDynamicAllocations++;
 	currentDynamicMemoryUsage+= allocatedSize;
@@ -71,7 +71,7 @@ void* mm_dynamicMalloc( uint32 size )
 
 void mm_staticFree( void* ptr )
 {
-	uint32 size= malloc_size(ptr);
+	uint32 size= malloc_usable_size(ptr);
 	free( ptr );
 
 	currentStaticMemoryUsage-= size;
@@ -82,7 +82,7 @@ void mm_staticFree( void* ptr )
 
 void mm_dynamicFree( void* ptr )
 {
-	uint32 size= malloc_size(ptr);
+	uint32 size= malloc_usable_size(ptr);
 	free( ptr );
 
 	currentDynamicMemoryUsage-= size;
@@ -93,13 +93,13 @@ void mm_dynamicFree( void* ptr )
 
 void* mm_staticReAlloc( void* ptr, uint32 size )
 {
-	uint32 oldSize= malloc_size(ptr);
+	uint32 oldSize= malloc_usable_size(ptr);
 	void* newPtr= realloc( ptr, size );
 	
 	if( newPtr == NULL )
 		return NULL;
 	
-	uint32 newSize= malloc_size(newPtr);
+	uint32 newSize= malloc_usable_size(newPtr);
 	
 	currentStaticMemoryUsage-= oldSize;
 	currentStaticMemoryUsage+= newSize;
